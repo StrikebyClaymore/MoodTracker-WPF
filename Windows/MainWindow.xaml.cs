@@ -24,30 +24,5 @@ namespace MoodTracker.Windows
         {
             InitializeComponent();
         }
-
-        private void StatiscticButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ChangeButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Window_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
-        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
     }
 }

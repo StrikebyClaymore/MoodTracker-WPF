@@ -9,7 +9,7 @@
 
     <Grid Name="Root" Height="640">
 
-        <Button x:Name="Close" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,16,0,0" Width="64" Height="64" Background="Transparent" BorderBrush="Transparent">
+        <Button x:Name="CloseButton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,16,0,0" Width="64" Height="64" Background="Transparent" BorderBrush="Transparent">
             <Image Source="/resources/images/close_icon.png"/>
         </Button>
 
