@@ -1,0 +1,46 @@
+﻿<Window x:Class="MoodTracker.Windows.StatisticWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MoodTracker.Windows"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="680" Width="640">
+    <Window.Resources>
+    </Window.Resources>
+    <Grid Name="Root" Height="640" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+
+        <Button x:Name="Close" Panel.ZIndex="1" HorizontalAlignment="Right"
+                VerticalAlignment="Top" Margin="0,16,16,0" Width="64" Height="64"
+                Style="{StaticResource BorderlessButton}">
+            <Image Source="/resources/images/close_icon.png"/>
+        </Button>
+
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,16">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Rectangle Grid.Row="0" Fill="Moccasin"/>
+            <Rectangle Grid.Row="1" Fill="LightGreen"/>
+            <Rectangle Grid.Row="2" Fill="Plum"/>
+            <Rectangle Grid.Row="3" Fill="PowderBlue"/>
+            <Rectangle Grid.Row="4" Fill="LightGray" Margin="0,-1,0,0"/>
+            <Image Grid.Row="0" HorizontalAlignment="Left" Margin="16" Width="96" Source="/resources/images/rad.png"/>
+            <Image Grid.Row="1" HorizontalAlignment="Left" Margin="16" Width="96" Source="/resources/images/good.png"/>
+            <Image Grid.Row="2" HorizontalAlignment="Left" Margin="16" Width="96" Source="/resources/images/neutral.png"/>
+            <Image Grid.Row="3" HorizontalAlignment="Left" Margin="16" Width="96" Source="/resources/images/bad.png"/>
+            <Image Grid.Row="4" HorizontalAlignment="Left" Margin="16" Width="96" Source="/resources/images/awful.png"/>
+        </Grid>
+
+        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible">
+            <Canvas>
+                <Image Margin="960,0,0,0" Width="96" Source="/resources/images/awful.png"/>
+            </Canvas>
+        </ScrollViewer>
+        
+    </Grid>
+</Window>

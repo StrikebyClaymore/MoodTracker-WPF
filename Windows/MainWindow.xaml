@@ -1,0 +1,27 @@
+﻿<Window x:Class="MoodTracker.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:vm="clr-namespace:MoodTracker.ViewModels.Base"
+        Title="{Binding Title}"
+        Height="660" Width="640">
+    <Window.DataContext>
+        <vm:MainWindow/>
+    </Window.DataContext>
+
+    <Grid Name="Root" Height="640">
+        <Grid Margin="202,96,202,128">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button Grid.Row ="0" Name="StatiscticButton" Content="Statistic" MaxHeight="96" Click="StatiscticButton_Click"/>
+            <Button Grid.Row ="1" Name="ChangeButton" Content="Change" MaxHeight="96" Click="ChangeButton_Click"/>
+            <Button Grid.Row ="2" Name="ExitButton" Content="Exit" MaxHeight="96" Click="ExitButton_Click"/>
+        </Grid>
+
+    </Grid>
+</Window>
