@@ -39,5 +39,15 @@ namespace MoodTracker.Windows
         {
 
         }
+
+        private void Window_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace MoodTracker
 
         private void App_Startup(object sender, StartupEventArgs e)
         {
-            Current.MainWindow = new StatisticWindow();
+            Current.MainWindow = new MainWindow();
             Current.MainWindow.Show();
         }
     }
