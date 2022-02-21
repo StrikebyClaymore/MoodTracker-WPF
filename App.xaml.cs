@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using MoodTracker.Windows;
 
 namespace MoodTracker
@@ -15,16 +8,22 @@ namespace MoodTracker
     /// </summary>
     public partial class App : Application
     {
+        /*internal static Database.Database database = new Database.Database();
 
-        public App() 
+        private static MainWindow mainWindow = new MainWindow();
+        private static NewDayWindow newDayWindow = new NewDayWindow();
+        private static StatisticWindow statisticWindow = new StatisticWindow();
+        private static DateChoiceWindow dateChoiceWindow = new DateChoiceWindow();*/
+
+        public App()
         {
             Startup += App_Startup;
         }
 
         private void App_Startup(object sender, StartupEventArgs e)
         {
-            Current.MainWindow = new MainWindow();
-            Current.MainWindow.Show();
+            WindowsController.Startup(new DBTest());
+            App.Current.MainWindow.Show();
         }
     }
 }

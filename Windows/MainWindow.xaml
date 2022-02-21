@@ -5,15 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:main="clr-namespace:MoodTracker"
         mc:Ignorable="d"
-        xmlns:vm="clr-namespace:MoodTracker.ViewModels.Base"
-        xmlns:cmd="clr-namespace:MoodTracker.Infrastucture.Commands"
         Title="Дневник настроения"
-        Height="660" Width="640"
-        Closing="{Binding Window_Closing}">
-
-    <Window.DataContext>
-        <vm:WindowBase/>
-    </Window.DataContext>
+        Height="660" Width="640">
 
     <Grid Name="Root" Height="640">
         <Grid Margin="202,96,202,128">
@@ -25,9 +18,6 @@
             <Button Grid.Row ="0" Name="StatiscticButton" Content="Statistic" MaxHeight="96"/>
             <Button Grid.Row ="1" Name="ChangeButton" Content="Change" MaxHeight="96"/>
             <Button Grid.Row ="2" Name="ExitButton" Content="Exit" MaxHeight="96">
-                <Button.Command>
-                    <cmd:CloseApplicationCommand/>
-                </Button.Command>
             </Button>
         </Grid>
 
