@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MoodTracker"
+        xmlns:m="clr-namespace:MoodTracker.Database"
         mc:Ignorable="d"
         Title="MainWindow" Height="680" Width="640">
 
@@ -11,7 +12,7 @@
 
         <Grid x:Name="Mood" Visibility="Visible">
 
-            <Button x:Name="CloseButton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,16,0,0" Width="64" Height="64" Background="Transparent" BorderBrush="Transparent">
+            <Button x:Name="CloseButton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,16,0,0" Width="64" Height="64" Background="Transparent" BorderBrush="Transparent" Click="CloseButton_Click">
                 <Image Source="/resources/images/close_icon.png"/>
             </Button>
 
@@ -28,10 +29,10 @@
                         <ColumnDefinition Width="0.2*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" x:Name="DateIcon" Background="Transparent" BorderBrush="Transparent">
+                    <Button Grid.Column="0" x:Name="DateIcon" Background="Transparent" BorderBrush="Transparent" Click="DateIcon_Click">
                         <Image Source="/resources/images/date_icon.png" Height="32" Width="32"/>
                     </Button>
-                    <Button HorizontalAlignment="Left" Grid.Column="1" Background="Transparent" BorderBrush="Transparent">
+                    <Button HorizontalAlignment="Left" Grid.Column="1" Background="Transparent" BorderBrush="Transparent" Click="DateIcon_Click">
                         <TextBlock x:Name="DateText" VerticalAlignment="Center" FontSize="18" Text="Сегодня, 28 февраля, 18:00"/>
                     </Button>
                 </Grid>
@@ -45,19 +46,19 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Background="Transparent" BorderBrush="Transparent">
+                <Button Grid.Column="0" Background="Transparent" BorderBrush="Transparent" Click="Mood_Click" Tag="0">
                     <Image Source="/resources/images/rad.png" MaxWidth="96"/>
                 </Button>
-                <Button Grid.Column="1" Background="Transparent" BorderBrush="Transparent">
+                <Button Grid.Column="1" Background="Transparent" BorderBrush="Transparent" Click="Mood_Click" Tag="1">
                     <Image Source="/resources/images/good.png" MaxWidth="96"/>
                 </Button>
-                <Button Grid.Column="2" Background="Transparent" BorderBrush="Transparent">
+                <Button Grid.Column="2" Background="Transparent" BorderBrush="Transparent" Click="Mood_Click" Tag="2">
                     <Image Source="/resources/images/neutral.png" MaxWidth="96"/>
                 </Button>
-                <Button Grid.Column="3" Background="Transparent" BorderBrush="Transparent">
+                <Button Grid.Column="3" Background="Transparent" BorderBrush="Transparent" Click="Mood_Click" Tag="3">
                     <Image Source="/resources/images/bad.png" MaxWidth="96"/>
                 </Button>
-                <Button Grid.Column="4" Background="Transparent" BorderBrush="Transparent">
+                <Button Grid.Column="4" Background="Transparent" BorderBrush="Transparent" Click="Mood_Click" Tag="4">
                     <Image Source="/resources/images/awful.png" MaxWidth="96"/>
                 </Button>
             </Grid>
@@ -67,10 +68,10 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0" x:Name="Accept" HorizontalAlignment="Center" Width="64" Height="64" Background="Transparent" BorderBrush="Transparent">
+                <Button Grid.Row="0" x:Name="Accept" HorizontalAlignment="Center" Width="64" Height="64" Background="Transparent" BorderBrush="Transparent" Click="Accept_Click">
                     <Image Source="/resources/images/accept_icon.png"/>
                 </Button>
-                <Button Grid.Row="1" Background="Transparent" BorderBrush="Transparent">
+                <Button Grid.Row="1" Background="Transparent" BorderBrush="Transparent" Click="Accept_Click">
                     <TextBlock FontSize="14" Text="Сохранить"/>
                 </Button>
             </Grid>
@@ -81,20 +82,20 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0" Name="EditNote" HorizontalAlignment="Center" Width="64" Height="64" Background="Transparent" BorderBrush="Transparent">
+                <Button Grid.Row="0" Name="EditNote" HorizontalAlignment="Center" Width="64" Height="64" Background="Transparent" BorderBrush="Transparent" Click="EditNote_Click">
                     <Image Source="/resources/images/edit_icon.png"/>
                 </Button>
-                <Button Grid.Row="1" Background="Transparent" BorderBrush="Transparent">
+                <Button Grid.Row="1" Background="Transparent" BorderBrush="Transparent" Click="EditNote_Click">
                     <TextBlock FontSize="14" Text="Сделать заметку"/>
                 </Button>
             </Grid>
         </Grid>
         
         <StackPanel x:Name="Note" Visibility="Hidden" Margin="16,16,16,16">
-            <Button x:Name="CloseNote" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="64" Background="Transparent" BorderBrush="Transparent">
+            <Button x:Name="CloseNote" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="64" Background="Transparent" BorderBrush="Transparent" Click="CloseNote_Click">
                 <Image Source="/resources/images/back_icon.png"/>
             </Button>
-            <TextBox x:Name="NoteText" HorizontalAlignment="Stretch" Margin="0, 16" Height="528" FontSize="16"/>
+            <TextBox x:Name="NoteText" HorizontalAlignment="Stretch" Margin="0, 16" Height="528" FontSize="16" TextChanged="NoteText_TextChanged"/>
         </StackPanel>
 
     </Grid>

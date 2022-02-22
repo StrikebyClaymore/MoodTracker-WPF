@@ -26,9 +26,7 @@ namespace MoodTracker.Windows
         private void ReadButton_Click(object sender, RoutedEventArgs e)
         {
             var date = database.ToDateSQLite(DatePicker.Text);
-            var ymd = date.Split('-')[0] + "-" + date.Split('-')[1];
-            Debug.WriteLine(ymd);
-            database.Read(ymd);
+            database.Read(date);
         }
     }
 }

@@ -40,6 +40,7 @@ namespace MoodTracker.Database
 
             connection.Close();
 
+            Debug.WriteLine("INIT DB");
             Read();
         }
 
@@ -49,12 +50,26 @@ namespace MoodTracker.Database
             connection.Open();
 
             SQLiteCommand command = new SQLiteCommand(connection);
-            command = new SQLiteCommand(connection)
-            {
-                CommandText = "INSERT OR REPLACE INTO [moods] ([date], [mood], [note]) VALUES ('" + day.date + "', " + day.mood + ", '" + day.note + "')"
-            };
-            command.ExecuteNonQuery();
+            command = new SQLiteCommand(connection);
 
+            command.CommandText = "SELECT * FROM [moods] WHERE [date] = '" + day.date + "'";
+            SQLiteDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                reader.Read();
+                var id = reader["id"];
+                /*var date = reader["date"];
+                var mood = reader["mood"];
+                var note = reader["note"];*/
+                reader.Close();
+                command.CommandText = "UPDATE [moods] SET [mood] = " + day.mood + ", [note] = '" + day.note + "' WHERE id = " + id;
+            }
+            else
+            {
+                reader.Close();
+                command.CommandText = "INSERT OR REPLACE INTO [moods] ([date], [mood], [note]) VALUES ('" + day.date + "', " + day.mood + ", '" + day.note + "')";
+            }
+            command.ExecuteNonQuery();
             connection.Close();
         }
 
@@ -88,10 +103,12 @@ namespace MoodTracker.Database
             if (selectedDate is null)
                 command.CommandText = "SELECT * FROM [moods]";
             else
-                command.CommandText = "SELECT * FROM [moods] WHERE ([date] BETWEEN '" + selectedDate + "-01" + "' AND '" + selectedDate + "-31" + "')";
-
-            adapter = new SQLiteDataAdapter(command);
-            adapter.Fill(data);
+            {
+                var ym = selectedDate.Split('-')[0] + "-" + selectedDate.Split('-')[1];
+                command.CommandText = "SELECT * FROM [moods] WHERE ([date] BETWEEN '" + ym + "-01" + "' AND '" + ym + "-31" + "')";
+            }
+            //adapter = new SQLiteDataAdapter(command);
+            //adapter.Fill(data);
 
             Debug.WriteLine("--------------------------------------------------------------------------------");
 
@@ -106,6 +123,7 @@ namespace MoodTracker.Database
 
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
+                Debug.WriteLine(reader.HasRows);
                 if (reader.HasRows)
                 {
                     while (reader.Read())

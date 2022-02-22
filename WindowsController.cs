@@ -21,7 +21,7 @@ namespace MoodTracker
             App.Current.MainWindow.Show();
         }
 
-        public static void BackToWindow()
+        public static void BackToPreviousWindow()
         {
             App.Current.MainWindow.Close();
             App.Current.MainWindow = _previous;
