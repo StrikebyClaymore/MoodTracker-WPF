@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using MoodTracker.Windows;
 
 namespace MoodTracker
@@ -9,6 +10,7 @@ namespace MoodTracker
     public partial class App : Application
     {
         internal static Database.Database database;
+        internal static string selectedDate = DateTime.Now.ToString("yyyy-MM-dd");
 
         /*private static MainWindow mainWindow = new MainWindow();
         private static NewDayWindow newDayWindow = new NewDayWindow();
@@ -23,7 +25,10 @@ namespace MoodTracker
 
         private void App_Startup(object sender, StartupEventArgs e)
         {
-            WindowsController.Startup(new NewDayWindow());
+            if(database.currentDay is null)
+                WindowsController.Startup(new NewDayWindow());
+            else
+                WindowsController.Startup(new MainWindow());
             App.Current.MainWindow.Show();
         }
     }

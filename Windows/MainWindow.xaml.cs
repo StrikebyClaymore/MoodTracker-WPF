@@ -19,5 +19,20 @@ namespace MoodTracker.Windows
         {
             base.OnClosing(e);
         }
+
+        private void StatiscticButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

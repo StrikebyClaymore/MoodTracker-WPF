@@ -11,7 +11,8 @@ namespace MoodTracker.Database
     internal class Database
     {
         private const string DbPath = @"C:\Users\CGO\Documents\Code\C#\MoodTracker-WPF\resources\db\moods.db";
-        public DataTable data = new DataTable();
+        //public DataTable data = new DataTable();
+        public Day currentDay = null;
 
         public Database()
         {
@@ -23,7 +24,7 @@ namespace MoodTracker.Database
                 stringCommand = @"CREATE TABLE [moods] (
                       [id] integer NOT NULL PRIMARY KEY AUTOINCREMENT,
                       [date] stringdate NOT NULL,
-                      [mood] int NOT NULL,
+                      [mood] integer NOT NULL,
                       [note] char(100));";
             }
 
@@ -123,12 +124,20 @@ namespace MoodTracker.Database
 
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                Debug.WriteLine(reader.HasRows);
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        Debug.WriteLine(string.Format("{0} {1} {2} {3}", reader["id"], reader["date"], reader["mood"], reader["note"]));
+                        var id = (int)(long)reader["id"];
+                        var date = (string)reader["date"];
+                        var mood = (int)(long)reader["mood"];
+                        var note = (string)reader["note"];
+
+                        var data = string.Format("{0} {1} {2} {3}", id, date, mood, note);
+                        Debug.WriteLine(data);
+
+                        if (App.selectedDate == (string)reader["date"])
+                            currentDay = new Day(date, mood, note, id);
                     }
                 }
             }

@@ -20,13 +20,10 @@ namespace MoodTracker.Windows
     public partial class NewDayWindow : Window
     {
         private int selectedMood;
-        private string selectedDate;
 
         public NewDayWindow()
         {
             InitializeComponent();
-
-            selectedDate = DateTime.Now.ToString("yyyy-MM-dd");
         }
 
         #region ChoiceMood
@@ -49,7 +46,7 @@ namespace MoodTracker.Windows
 
         private void Accept_Click(object sender, RoutedEventArgs e)
         {
-            App.database.Write(new Day(selectedDate, selectedMood, NoteText.Text));
+            App.database.Write(new Day(App.selectedDate, selectedMood, NoteText.Text));
         }
 
         private void EditNote_Click(object sender, RoutedEventArgs e)
