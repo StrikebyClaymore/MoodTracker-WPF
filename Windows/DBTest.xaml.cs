@@ -1,4 +1,5 @@
 ﻿using MoodTracker.Database;
+using System.Diagnostics;
 using System.Windows;
 
 namespace MoodTracker.Windows
@@ -17,9 +18,17 @@ namespace MoodTracker.Windows
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var day = new Day(DatePicker.Text, MoodBox.SelectedIndex, NoteText.Text);
+            var day = new Day(database.ToDateSQLite(DatePicker.Text), MoodBox.SelectedIndex, NoteText.Text);
             database.Write(day);
             database.Read();
+        }
+
+        private void ReadButton_Click(object sender, RoutedEventArgs e)
+        {
+            var date = database.ToDateSQLite(DatePicker.Text);
+            var ymd = date.Split('-')[0] + "-" + date.Split('-')[1];
+            Debug.WriteLine(ymd);
+            database.Read(ymd);
         }
     }
 }

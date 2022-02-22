@@ -16,8 +16,7 @@ namespace MoodTracker.Database
             this.date = date;
             this.mood = mood;
             this.note = note;
-            var split = date.Split('.');
-            id = (int.Parse(split[2]) * 385) + (int.Parse(split[1]) * 32) + int.Parse(split[0]);
+            //id = (int.Parse(split[2]) * 385) + (int.Parse(split[1]) * 32) + int.Parse(split[0]);
         }
     }
 }

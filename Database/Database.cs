@@ -10,7 +10,7 @@ namespace MoodTracker.Database
 {
     internal class Database
     {
-        private const string DbPath = "moods.db";
+        private const string DbPath = @"C:\Users\CGO\Documents\Code\C#\MoodTracker-WPF\resources\db\moods.db";
         public DataTable data = new DataTable();
 
         public Database()
@@ -21,8 +21,8 @@ namespace MoodTracker.Database
             {
                 SQLiteConnection.CreateFile(DbPath);
                 stringCommand = @"CREATE TABLE [moods] (
-                      [id] integer NOT NULL PRIMARY KEY,
-                      [date] char(10) NOT NULL,
+                      [id] integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+                      [date] stringdate NOT NULL,
                       [mood] int NOT NULL,
                       [note] char(100));";
             }
@@ -51,7 +51,7 @@ namespace MoodTracker.Database
             SQLiteCommand command = new SQLiteCommand(connection);
             command = new SQLiteCommand(connection)
             {
-                CommandText = "INSERT OR REPLACE INTO [moods] ([id], [date], [mood], [note]) VALUES (" + day.id + ", '" + day.date + "', " + day.mood + ", '" + day.note + "')"
+                CommandText = "INSERT OR REPLACE INTO [moods] ([date], [mood], [note]) VALUES ('" + day.date + "', " + day.mood + ", '" + day.note + "')"
             };
             command.ExecuteNonQuery();
 
@@ -73,7 +73,7 @@ namespace MoodTracker.Database
             connection.Close();
         }*/
 
-        public void Read()
+        public void Read(string selectedDate = null)
         {
             SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0};", DbPath));
             connection.Open();
@@ -81,25 +81,47 @@ namespace MoodTracker.Database
             SQLiteDataAdapter adapter;
 
             SQLiteCommand command = new SQLiteCommand(connection);
-            command = new SQLiteCommand(connection)
-            {
-                CommandText = "SELECT * FROM [moods]"
-            };
+
+
+            command = new SQLiteCommand(connection);
+
+            if (selectedDate is null)
+                command.CommandText = "SELECT * FROM [moods]";
+            else
+                command.CommandText = "SELECT * FROM [moods] WHERE ([date] BETWEEN '" + selectedDate + "-01" + "' AND '" + selectedDate + "-31" + "')";
 
             adapter = new SQLiteDataAdapter(command);
             adapter.Fill(data);
 
-            connection.Close();
-
             Debug.WriteLine("--------------------------------------------------------------------------------");
+
             //Debug.WriteLine(data.Rows[0]["id"]);
-            foreach (DataRow row in data.Rows)
+            /*foreach (DataRow row in data.Rows)
             {
                 var str = "";
                 foreach (DataColumn col in data.Columns)
                     str += row[col].ToString() + " ";
                 Debug.WriteLine(str);
+            }*/
+
+            using (SQLiteDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Debug.WriteLine(string.Format("{0} {1} {2} {3}", reader["id"], reader["date"], reader["mood"], reader["note"]));
+                    }
+                }
             }
+
+            connection.Close();
+        }
+
+        public string ToDateSQLite(string date)
+        {
+            var split = date.Split('.');
+            return split[2] + "-" + split[1] + "-" + split[0];
         }
     }
 }
