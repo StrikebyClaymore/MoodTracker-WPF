@@ -27,7 +27,7 @@ namespace MoodTracker.Windows
 
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowsController.GoToWindow(this, WindowsController.dateChoiceWindow);
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)

@@ -10,12 +10,8 @@ namespace MoodTracker
     public partial class App : Application
     {
         internal static Database.Database database;
+        internal static string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
         internal static string selectedDate = DateTime.Now.ToString("yyyy-MM-dd");
-
-        /*private static MainWindow mainWindow = new MainWindow();
-        private static NewDayWindow newDayWindow = new NewDayWindow();
-        private static StatisticWindow statisticWindow = new StatisticWindow();
-        private static DateChoiceWindow dateChoiceWindow = new DateChoiceWindow();*/
 
         public App()
         {
@@ -26,10 +22,14 @@ namespace MoodTracker
         private void App_Startup(object sender, StartupEventArgs e)
         {
             if(database.currentDay is null)
-                WindowsController.Startup(new NewDayWindow());
+                WindowsController.Startup(WindowsController.newDayWindow);
             else
-                WindowsController.Startup(new MainWindow());
+                WindowsController.Startup(WindowsController.mainWindow);
+
+            WindowsController.Startup(new DBTest());
+            
             App.Current.MainWindow.Show();
+            App.Current.MainWindow.WindowStartupLocation = WindowStartupLocation.Manual;
         }
     }
 }

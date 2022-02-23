@@ -12,7 +12,11 @@ namespace MoodTracker.Database
     {
         private const string DbPath = @"C:\Users\CGO\Documents\Code\C#\MoodTracker-WPF\resources\db\moods.db";
         //public DataTable data = new DataTable();
+
+        public List<Day> data = new List<Day>();
         public Day currentDay = null;
+
+        public enum ReadType { All, Month, Day, Next, Previous }
 
         public Database()
         {
@@ -42,6 +46,7 @@ namespace MoodTracker.Database
             connection.Close();
 
             Debug.WriteLine("INIT DB");
+            Read();
             Read();
         }
 
@@ -74,23 +79,10 @@ namespace MoodTracker.Database
             connection.Close();
         }
 
-        /*public void Update()
+        public void Read(string selectedDate = null, ReadType readType = ReadType.All)
         {
-            SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0};", DbPath));
-            connection.Open();
+            Debug.WriteLine("--------------------------------------------------------------------------------");
 
-            SQLiteCommand command = new SQLiteCommand(connection);
-            command = new SQLiteCommand(connection)
-            {
-                CommandText = "UPDATE [moods] SET [mood] = " + 1 + " WHERE id =" + 1
-            };
-            command.ExecuteNonQuery();
-
-            connection.Close();
-        }*/
-
-        public void Read(string selectedDate = null)
-        {
             SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0};", DbPath));
             connection.Open();
 
@@ -98,20 +90,33 @@ namespace MoodTracker.Database
 
             SQLiteCommand command = new SQLiteCommand(connection);
 
-
             command = new SQLiteCommand(connection);
 
-            if (selectedDate is null)
-                command.CommandText = "SELECT * FROM [moods]";
-            else
-            {
-                var ym = selectedDate.Split('-')[0] + "-" + selectedDate.Split('-')[1];
-                command.CommandText = "SELECT * FROM [moods] WHERE ([date] BETWEEN '" + ym + "-01" + "' AND '" + ym + "-31" + "')";
-            }
-            //adapter = new SQLiteDataAdapter(command);
-            //adapter.Fill(data);
+            readType = ReadType.Previous;
+            selectedDate = App.selectedDate;
 
-            Debug.WriteLine("--------------------------------------------------------------------------------");
+            Debug.WriteLine(selectedDate);
+
+            switch (readType)
+            {
+                case ReadType.All:
+                    ReadAll(command);
+                    break;
+                case ReadType.Month:
+                    ReadMonth(command, selectedDate);
+                    break;
+                case ReadType.Day:
+                    break;
+                case ReadType.Next:
+                case ReadType.Previous:
+                    App.selectedDate = ReadNext(command, selectedDate, readType);
+                    break;
+            }
+
+            Debug.WriteLine(App.selectedDate);
+
+            //adapter = new SQLiteDataAdapter(command);
+            //adapter.Fill(data);   
 
             //Debug.WriteLine(data.Rows[0]["id"]);
             /*foreach (DataRow row in data.Rows)
@@ -126,6 +131,7 @@ namespace MoodTracker.Database
             {
                 if (reader.HasRows)
                 {
+                    data.Clear();
                     while (reader.Read())
                     {
                         var id = (int)(long)reader["id"];
@@ -133,16 +139,58 @@ namespace MoodTracker.Database
                         var mood = (int)(long)reader["mood"];
                         var note = (string)reader["note"];
 
-                        var data = string.Format("{0} {1} {2} {3}", id, date, mood, note);
-                        Debug.WriteLine(data);
+                        var stringData = string.Format("{0} {1} {2} {3}", id, date, mood, note);
+                        Debug.WriteLine(stringData);
+
+                        var day = new Day(date, mood, note, id);
 
                         if (App.selectedDate == (string)reader["date"])
-                            currentDay = new Day(date, mood, note, id);
+                            currentDay = day;
+
+                        data.Add(day);
                     }
                 }
             }
 
             connection.Close();
+        }
+
+        private void ReadAll(SQLiteCommand command)
+        {
+            command.CommandText = "SELECT * FROM [moods]";
+        }
+
+        private void ReadMonth(SQLiteCommand command, string selectedDate)
+        {
+            var ym = selectedDate.Split('-')[0] + "-" + selectedDate.Split('-')[1];
+            command.CommandText = "SELECT * FROM [moods] WHERE ([date] BETWEEN '" + ym + "-01" + "' AND '" + ym + "-31" + "')";
+        }
+
+        private string ReadNext(SQLiteCommand command, string selectedDate, ReadType readType)
+        {
+            var ym = selectedDate.Split('-')[0] + "-" + selectedDate.Split('-')[1];
+
+            if (readType == ReadType.Next)
+                command.CommandText = "SELECT * FROM [moods] WHERE ([date] > '" + ym + "-31'" + ")";
+            else
+                command.CommandText = "SELECT * FROM [moods] WHERE ([date] < '" + ym + "-01'" + ")";
+
+            bool findNextDate = false;
+            using (SQLiteDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    data.Clear();
+                    reader.Read();
+                    selectedDate = (string)reader["date"];
+                    ym = selectedDate.Split('-')[0] + "-" + selectedDate.Split('-')[1];
+                    findNextDate = true;
+                }
+            }
+
+            if (findNextDate)
+                command.CommandText = "SELECT * FROM [moods] WHERE ([date] BETWEEN '" + ym + "-01" + "' AND '" + ym + "-31" + "')";
+            return selectedDate;
         }
 
         public string ToDateSQLite(string date)

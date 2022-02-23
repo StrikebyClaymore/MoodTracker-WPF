@@ -9,8 +9,6 @@ namespace MoodTracker.Windows
     /// </summary>
     public partial class DBTest : Window
     {
-        internal Database.Database database = new Database.Database();
-
         public DBTest()
         {
             InitializeComponent();
@@ -18,15 +16,15 @@ namespace MoodTracker.Windows
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var day = new Day(database.ToDateSQLite(DatePicker.Text), MoodBox.SelectedIndex, NoteText.Text);
-            database.Write(day);
-            database.Read();
+            var day = new Day(App.database.ToDateSQLite(DatePicker.Text), MoodBox.SelectedIndex, NoteText.Text);
+            App.database.Write(day);
+            App.database.Read();
         }
 
         private void ReadButton_Click(object sender, RoutedEventArgs e)
         {
-            var date = database.ToDateSQLite(DatePicker.Text);
-            database.Read(date);
+            var date = App.database.ToDateSQLite(DatePicker.Text);
+            App.database.Read(date, Database.Database.ReadType.Month);
         }
     }
 }
