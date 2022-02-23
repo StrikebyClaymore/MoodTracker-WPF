@@ -44,6 +44,15 @@ namespace MoodTracker.Database
 
             connection.Close();
 
+            var rnd = new Random();
+            for (int i = 1; i < 29; i++)
+            {
+                string day = i.ToString();
+                if (day.Length == 1)
+                    day = "0" + i;
+                Write(new Day("2022-02-" + day, rnd.Next(5), "test record"));
+            }
+
             Debug.WriteLine("INIT DB");
             Read(App.selectedDate, ReadType.Month);
         }
