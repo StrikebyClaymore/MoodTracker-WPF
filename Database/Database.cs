@@ -16,7 +16,7 @@ namespace MoodTracker.Database
         public List<Day> data = new List<Day>();
         public Day currentDay = null;
 
-        public enum ReadType { All, Month, Day, Next, Previous }
+        public enum ReadType { All, Month, Day, Next, Previous}
 
         public Database()
         {
@@ -46,8 +46,7 @@ namespace MoodTracker.Database
             connection.Close();
 
             Debug.WriteLine("INIT DB");
-            Read();
-            Read();
+            Read(App.selectedDate, ReadType.Month);
         }
 
         public void Write(Day day)
@@ -79,23 +78,17 @@ namespace MoodTracker.Database
             connection.Close();
         }
 
-        public void Read(string selectedDate = null, ReadType readType = ReadType.All)
+        public bool Read(string selectedDate = null, ReadType readType = ReadType.All, bool check = false)
         {
-            Debug.WriteLine("--------------------------------------------------------------------------------");
+            if (!check)
+                Debug.WriteLine("--------------------------------------------------------------------------------");
 
             SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0};", DbPath));
             connection.Open();
 
-            SQLiteDataAdapter adapter;
-
             SQLiteCommand command = new SQLiteCommand(connection);
 
             command = new SQLiteCommand(connection);
-
-            readType = ReadType.Previous;
-            selectedDate = App.selectedDate;
-
-            Debug.WriteLine(selectedDate);
 
             switch (readType)
             {
@@ -113,8 +106,7 @@ namespace MoodTracker.Database
                     break;
             }
 
-            Debug.WriteLine(App.selectedDate);
-
+            //SQLiteDataAdapter adapter;
             //adapter = new SQLiteDataAdapter(command);
             //adapter.Fill(data);   
 
@@ -129,7 +121,12 @@ namespace MoodTracker.Database
 
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                if (reader.HasRows)
+                if (check)
+                {
+                    App.selectedDate = selectedDate;
+                    return reader.HasRows;
+                }
+                else if (reader.HasRows)
                 {
                     data.Clear();
                     while (reader.Read())
@@ -153,6 +150,8 @@ namespace MoodTracker.Database
             }
 
             connection.Close();
+
+            return data.Count != 0;
         }
 
         private void ReadAll(SQLiteCommand command)
@@ -180,7 +179,6 @@ namespace MoodTracker.Database
             {
                 if (reader.HasRows)
                 {
-                    data.Clear();
                     reader.Read();
                     selectedDate = (string)reader["date"];
                     ym = selectedDate.Split('-')[0] + "-" + selectedDate.Split('-')[1];

@@ -26,7 +26,7 @@ namespace MoodTracker
             else
                 WindowsController.Startup(WindowsController.mainWindow);
 
-            WindowsController.Startup(new DBTest());
+            //WindowsController.Startup(new DBTest());
             
             App.Current.MainWindow.Show();
             App.Current.MainWindow.WindowStartupLocation = WindowStartupLocation.Manual;
