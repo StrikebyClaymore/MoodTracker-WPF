@@ -20,6 +20,36 @@ namespace MoodTracker.Windows
         public StatisticWindow()
         {
             InitializeComponent();
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            DrawGraphic();
+        }
+
+        private void DrawGraphic()
+        {
+            Random rand = new Random();
+            for (int i = 1; i < 11; i++)
+            {
+                if(i == 10)
+                {
+                    ScrollLine.X1 = 128 + (i * 96);
+                    ScrollLine.X2 = 128 + (i * 96);
+                    break;
+                }
+
+                var line = new Line
+                {
+                    X1 = 128 + ((i - 1) * 96),
+                    X2 = 128 + (i * 96),
+                    Y1 = 256 + rand.Next(32),
+                    Y2 = 256 + rand.Next(32),
+                    Stroke = Brushes.Black
+                };
+                GraphicBox.Children.Add(line);
+            }
         }
     }
 }

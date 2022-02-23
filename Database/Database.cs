@@ -11,7 +11,6 @@ namespace MoodTracker.Database
     internal class Database
     {
         private const string DbPath = @"C:\Users\CGO\Documents\Code\C#\MoodTracker-WPF\resources\db\moods.db";
-        //public DataTable data = new DataTable();
 
         public List<Day> data = new List<Day>();
         public Day currentDay = null;
@@ -105,19 +104,6 @@ namespace MoodTracker.Database
                     App.selectedDate = ReadNext(command, selectedDate, readType);
                     break;
             }
-
-            //SQLiteDataAdapter adapter;
-            //adapter = new SQLiteDataAdapter(command);
-            //adapter.Fill(data);   
-
-            //Debug.WriteLine(data.Rows[0]["id"]);
-            /*foreach (DataRow row in data.Rows)
-            {
-                var str = "";
-                foreach (DataColumn col in data.Columns)
-                    str += row[col].ToString() + " ";
-                Debug.WriteLine(str);
-            }*/
 
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
