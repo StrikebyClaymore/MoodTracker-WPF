@@ -10,7 +10,7 @@ namespace MoodTracker.Database
 {
     internal class Database
     {
-        private const string DbPath = @"C:\Users\CGO\Documents\Code\C#\MoodTracker-WPF\resources\db\moods.db";
+        public readonly string DbPath = (AppDomain.CurrentDomain.BaseDirectory + "moods.db").Replace(@"\", @"/");
 
         public List<Day> data = new List<Day>();
         public Day currentDay = null;

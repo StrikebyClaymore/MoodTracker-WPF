@@ -1,4 +1,5 @@
 ﻿using MoodTracker.Windows;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -43,8 +44,9 @@ namespace MoodTracker
 
         public static void CloseWindows()
         {
-            for (int i = App.Current.Windows.Count - 1; i >= 0; i--)
-                App.Current.Windows[i].Close();
+            /*for (int i = App.Current.Windows.Count - 1; i >= 0; i--)
+                App.Current.Windows[i].Close();*/
+            Environment.Exit(0);
         }
     }
 }

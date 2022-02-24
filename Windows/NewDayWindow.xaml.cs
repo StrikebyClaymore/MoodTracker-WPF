@@ -34,7 +34,7 @@ namespace MoodTracker.Windows
 
         #region ChoiceMood
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)    
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             WindowsController.BackToPreviousWindow();
         }
@@ -53,6 +53,7 @@ namespace MoodTracker.Windows
         private void Accept_Click(object sender, RoutedEventArgs e)
         {
             App.database.Write(new Day(App.selectedDate, selectedMood, NoteText.Text));
+            WindowsController.BackToPreviousWindow();
         }
 
         private void EditNote_Click(object sender, RoutedEventArgs e)

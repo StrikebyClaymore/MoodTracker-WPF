@@ -20,6 +20,7 @@
             <Button Grid.Row ="2" Name="ExitButton" Content="Exit" MaxHeight="96" Click="ExitButton_Click">
             </Button>
         </Grid>
+        <TextBlock x:Name="path" Text="TextBlock" FontSize="18" TextWrapping="Wrap" Height="96" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

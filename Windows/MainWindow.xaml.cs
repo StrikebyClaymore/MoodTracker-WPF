@@ -13,10 +13,12 @@ namespace MoodTracker.Windows
         public MainWindow()
         {
             InitializeComponent();
+            path.Text = App.database.DbPath;
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            WindowsController.CloseWindows();
             base.OnClosing(e);
         }
 
@@ -32,7 +34,8 @@ namespace MoodTracker.Windows
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            //Application.Current.Shutdown();
+            Environment.Exit(0);
         }
     }
 }
