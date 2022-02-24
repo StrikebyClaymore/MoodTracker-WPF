@@ -59,6 +59,7 @@ namespace MoodTracker.Windows
                 btn.SetValue(Grid.ColumnProperty, column);
                 btn.SetValue(Grid.RowProperty, row);
 
+                activeDays.Add(day);
                 DaysGrid.Children.Add(btn);
             }
 
@@ -68,7 +69,7 @@ namespace MoodTracker.Windows
                 int column = i % DaysGrid.ColumnDefinitions.Count;
                 int row = (i - column) / DaysGrid.ColumnDefinitions.Count;
 
-                if (activeDays.Contains(i))
+                if (activeDays.Contains(i + 1))
                     continue;
 
                 TextBlock textBlock = new TextBlock
@@ -100,7 +101,7 @@ namespace MoodTracker.Windows
         private void DateButton_Click(object sender, RoutedEventArgs e)
         {
             App.selectedDate = (string)((Button)sender).Tag;
-            Debug.WriteLine(App.selectedDate);
+            WindowsController.GoToWindow(this, WindowsController.newDayWindow);
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

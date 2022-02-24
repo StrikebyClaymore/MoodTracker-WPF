@@ -21,17 +21,28 @@ namespace MoodTracker.Windows
         public StatisticWindow()
         {
             InitializeComponent();
-            Loaded += OnLoaded;
+            Activated += StatisticWindow_Activated;
+            Deactivated += StatisticWindow_Deactivated;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private void StatisticWindow_Activated(object sender, EventArgs e)
         {
             DrawGraphic();
+        }
+
+        private void StatisticWindow_Deactivated(object sender, EventArgs e)
+        {
+            Scroller.ScrollToHome();
         }
 
         private void DrawGraphic()
         {
             Random rand = new Random();
+
+            GraphicBox.Children.Clear();
+
+            var scrollLine = new Line { X1 = 640, X2 = 640, Y1 = 0, Y2 = 0, };
+            GraphicBox.Children.Add(scrollLine);
 
             var polygon = new Polygon { Fill = new SolidColorBrush(Color.FromArgb(100, 40, 60, 240)) };
             polygon.Points.Add(new Point(128, Height));
@@ -41,8 +52,8 @@ namespace MoodTracker.Windows
                 if (i == App.database.data.Count)
                 {
                     polygon.Points.Add(new Point(128 + ((i - 1) * 96), Height));
-                    ScrollLine.X1 = 128 + (i * 96);
-                    ScrollLine.X2 = 128 + (i * 96);
+                    scrollLine.X1 = 128 + (i * 96);
+                    scrollLine.X2 = 128 + (i * 96);
                     break;
                 }
 
@@ -62,12 +73,28 @@ namespace MoodTracker.Windows
                     Stroke = Brushes.Black
                 };
 
+                var tBlock = new TextBlock
+                {
+                    Text = App.database.data[i - 1].date.Split('-')[2],
+                    Margin = new Thickness(line.X1 - 10, Height - 96, 0, 0),
+                    FontSize = 20
+                };
+
                 polygon.Points.Add(new Point(128 + ((i - 1) * 96), p1.Y + m1.ActualHeight / 2));
 
                 if (i == App.database.data.Count - 1)
+                {
+                    GraphicBox.Children.Add(new TextBlock
+                    {
+                        Text = App.database.data[i].date.Split('-')[2],
+                        Margin = new Thickness(line.X2 - 10, Height - 96, 0, 0),
+                        FontSize = 20
+                    });
                     polygon.Points.Add(new Point(128 + (i * 96), p2.Y + m2.ActualHeight / 2));
+                }
 
                 GraphicBox.Children.Add(line);
+                GraphicBox.Children.Add(tBlock);
             }
 
             GraphicBox.Children.Add(polygon);

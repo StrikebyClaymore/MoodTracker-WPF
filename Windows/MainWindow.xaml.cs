@@ -22,7 +22,7 @@ namespace MoodTracker.Windows
 
         private void StatiscticButton_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowsController.GoToWindow(this, WindowsController.statisticWindow);
         }
 
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
@@ -32,7 +32,7 @@ namespace MoodTracker.Windows
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Application.Current.Shutdown();
         }
     }
 }

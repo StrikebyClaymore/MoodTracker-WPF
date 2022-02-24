@@ -24,6 +24,12 @@ namespace MoodTracker.Windows
         public NewDayWindow()
         {
             InitializeComponent();
+            Activated += NewDayWindow_Activated;
+        }
+
+        private void NewDayWindow_Activated(object sender, EventArgs e)
+        {
+            DateText.Text = App.selectedDate;
         }
 
         #region ChoiceMood

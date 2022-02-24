@@ -44,14 +44,14 @@ namespace MoodTracker.Database
 
             connection.Close();
 
-            var rnd = new Random();
+            /*var rnd = new Random();
             for (int i = 1; i < 29; i++)
             {
                 string day = i.ToString();
                 if (day.Length == 1)
                     day = "0" + i;
-                Write(new Day("2022-02-" + day, rnd.Next(5), "test record"));
-            }
+                Write(new Day("2022-01-" + day, rnd.Next(5), "test record"));
+            }*/
 
             Debug.WriteLine("INIT DB");
             Read(App.selectedDate, ReadType.Month);
@@ -88,8 +88,8 @@ namespace MoodTracker.Database
 
         public bool Read(string selectedDate = null, ReadType readType = ReadType.All, bool check = false)
         {
-            if (!check)
-                Debug.WriteLine("--------------------------------------------------------------------------------");
+            /*if (!check)
+                Debug.WriteLine("--------------------------------------------------------------------------------");*/
 
             SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source={0};", DbPath));
             connection.Open();
@@ -132,7 +132,8 @@ namespace MoodTracker.Database
                         var note = (string)reader["note"];
 
                         var stringData = string.Format("{0} {1} {2} {3}", id, date, mood, note);
-                        Debug.WriteLine(stringData);
+
+                        //Debug.WriteLine(stringData);
 
                         var day = new Day(date, mood, note, id);
 
